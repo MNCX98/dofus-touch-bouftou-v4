@@ -1,0 +1,20 @@
+{
+  "window_title_contains": "BlueStacks",
+  "threshold": 0.8,
+  "button_threshold": 0.95,
+  "scan_interval_ms": 500,
+  "cooldown_after_click_s": 4.0,
+  "click_count": 2,
+  "click_interval_ms": 200,
+  "sequence_seconds": 40,
+  "save_diagnostics": true,
+  "spells_per_turn": 2,
+  "spell_wait_s": 0.6,
+  "target_wait_s": 0.9,
+  "cast_wait_s": 1.2,
+  "end_turn_cooldown_s": 3.0,
+  "cell_w": 86,
+  "cell_h": 43,
+  "fight_end_timeout_s": 10.0,
+  "stop_on_fight_end": true
+}
