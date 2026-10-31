@@ -1,0 +1,39 @@
+name: Build DofusAuto (Windows)
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installer les dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy opencv-python-headless PySide6 pyinstaller pytest
+
+      - name: Tests automatiques
+        run: python -m pytest tests -q
+
+      - name: Compiler l'application
+        run: pyinstaller --noconfirm --windowed --onedir --name DofusAuto --paths . main.py
+
+      - name: Ajouter les fichiers modifiables à côté du .exe
+        shell: pwsh
+        run: |
+          Copy-Item -Recurse assets dist/DofusAuto/assets
+          Copy-Item config.json dist/DofusAuto/config.json
+          Copy-Item LISEZMOI.txt dist/DofusAuto/LISEZMOI.txt
+          New-Item -ItemType Directory -Force dist/DofusAuto/captures, dist/DofusAuto/logs | Out-Null
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DofusAuto-Windows
+          path: dist/DofusAuto

@@ -1,0 +1,67 @@
+DofusAuto — version 0.4 (Phase 1 : recherche du monstre / Phase 2 : combat)
+===========================================================================
+
+LANCER
+  Double-clique sur DofusAuto.exe. Rien d'autre à installer.
+  (Windows peut afficher « Windows a protégé votre ordinateur » :
+   clique sur « Informations complémentaires » puis « Exécuter quand même ».)
+
+AVANT DE TESTER
+  - Lance BlueStacks avec Dofus Touch. Garde la même taille de fenêtre
+    entre les captures et l'utilisation (les zones de recherche s'adaptent
+    à la taille, mais l'échelle du jeu ne doit pas changer).
+  - Le MODE CRÉATURE (monstres en petits pions) est conseillé : les anneaux
+    rouge (toi) et bleu (ennemis) restent bien visibles. Les pions noirs
+    sont reconnus avec assets\monsters\pion (à valider sur une vraie carte).
+  - Laisse la fenêtre BlueStacks entièrement visible : ne la recouvre pas
+    (y compris avec DofusAuto) et ne la réduis pas.
+  - Le programme utilise la vraie souris : ne la touche pas pendant qu'il tourne.
+
+CE QUE FAIT LE ROBOT (bouton « Démarrer »)
+  1. Sur la carte : cherche un monstre et clique dessus (double clic).
+  2. Placement : clique sur le bouton vert « Prêt ».
+  3. À ton tour : lance Coagulation sur l'ennemi le plus proche, 2 fois
+     (clique sur la coche verte de confirmation si elle apparaît),
+     puis clique sur « Fin du tour ».
+  4. Tour des monstres : attend.
+  5. Quand l'interface de combat disparaît pendant 10 s : il s'arrête et
+     enregistre une capture (logs\fin_combat_….png). La fin de combat
+     (phase 6) n'est pas encore gérée : envoie-moi cette capture.
+  ARRÊT : touche F12 (même si une autre fenêtre est active) ou « Arrêter ».
+
+COMMENT TESTER (dans cet ordre)
+  1. « Tester la détection (sans clic) » en plein combat, à ton tour :
+     le programme dit ce qu'il voit et dessine des cadres (aperçu + dossier logs).
+     Tu dois lire : Fin du tour (actif) TROUVÉ, Sort Coagulation TROUVÉ,
+     joueur vu, des ennemis vus, et une « CIBLE » (la plus proche).
+  2. Fais la même chose pendant le placement (le bouton Prêt doit être TROUVÉ).
+  3. Ensuite seulement : « Démarrer ».
+
+AUTRES BOUTONS
+  - Enregistrer une capture : une image de ce que voit le programme.
+  - Enregistrer une séquence : 1 capture par seconde (durée : sequence_seconds
+    dans config.json) + planche.jpg numérotée.
+  - Recharger les images : après avoir ajouté un monstre dans assets\monsters.
+  - Dossier des captures : ouvre le dossier.
+
+RÉGLAGES (config.json, à ouvrir avec le Bloc-notes, programme fermé)
+  threshold          0.80  confiance pour monstres, bandeaux, coche, sort
+  button_threshold   0.95  confiance pour Prêt / Fin du tour (ne pas baisser :
+                           ces deux boutons se ressemblent)
+  spells_per_turn    2     nombre de sorts par tour
+  spell_wait_s, target_wait_s, cast_wait_s : pauses (en secondes) ; augmente-les
+                           si le jeu est lent
+  cell_w / cell_h    86/43 taille d'une case en pixels (calcul « le plus proche »)
+
+EN CAS DE PROBLÈME
+  Envoie-moi : le texte du journal (zone du bas), les images du dossier « logs »
+  (diag_….png, test_….png) et, pour une séquence, le dossier ou planche.jpg.
+
+LIMITES CONNUES
+  - Le robot ne se déplace pas : il lance les sorts depuis sa case de départ.
+    Si aucun ennemi n'est à portée, le sort ne partira pas (il le dira dans
+    le journal) et le tour se termine.
+  - Le « plus proche » est calculé en cases à l'écran (vue isométrique).
+  - Seul le sort Coagulation est géré (image : assets\spells\coagulation.png).
+  - Fin de combat (phase 6) : pas encore disponible.
+  - Ankama interdit les logiciels d'automatisation : ton compte peut être sanctionné.
